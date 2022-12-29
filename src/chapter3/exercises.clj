@@ -39,3 +39,18 @@
                              accumulator
                              (recur function remaining (conj accumulator (function first-element))))))]
     (inner-function function collection #{})))
+
+;; Q5 - Symmetrize body parts but with five parts each
+(defn radial-matching-parts
+  [part]
+  (reduce (fn [collection part-to-replace-with]
+            (conj collection {:size (:size part)
+                              :name (clojure.string/replace (:name part) #"^left" part-to-replace-with)}))
+          []
+          ["left" "right" "center" "upper" "lower"]))
+
+(defn alien-symmetrize-body-parts
+  [asym-body-parts]
+  (reduce (fn [collection part] (into collection (set (radial-matching-parts part))))
+          []
+          asym-body-parts))
