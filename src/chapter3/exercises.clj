@@ -54,3 +54,18 @@
   (reduce (fn [collection part] (into collection (set (radial-matching-parts part))))
           []
           asym-body-parts))
+
+;; Q6 - Generalize the function above
+(defn generalized-matching-parts
+  [part number-of-parts-to-add]
+  (reduce (fn [collection part-to-replace-with]
+            (conj collection {:size (:size part)
+                              :name (clojure.string/replace (:name part) #"^1" part-to-replace-with)}))
+          []
+          (range 1 (inc number-of-parts-to-add))))
+
+(defn generalized-symmetrize-body-parts
+  [asym-body-parts number-of-parts-to-add]
+  (reduce (fn [collection part] (into collection (set (generalized-matching-parts part number-of-parts-to-add))))
+          []
+          asym-body-parts))
